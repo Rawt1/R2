@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>FrontPage</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav>
+    <a href="#" class="active">Home</a>
+    <a href="#">About</a>
+    <a href="#">Contact</a>
+</nav>
+
+<div class="main-container">
+    <div class="product-list-container">
+        <h1>Product List</h1>
+        <ul>
+            <li th:each="product : ${products}">
+                <div class="product-container">
+                    <div class="image-container">
+                        <div class="placeholder"></div>
+                    </div>
+                    <div class="text-container">
+                        <h2 th:text="${product.title}">Product Title</h2>
+                        <p th:text="${product.shortDescription}">Short description of product</p>
+                        <p th:text="${product.price}">Price</p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="recommendations-container" th:if="${true}">
+        <h2>Recommendations</h2>
+        <ul>
+            <li>
+                <div class="recommendation-item">
+                    <div class="image-container">
+                        <div class="placeholder"></div>
+                    </div>
+                    <div class="text-container">
+                        <h3 th:text="${recommendation.productId}"></h3>
+                        <p th:text="${recommendation.explanation}"></p>
+                        <p th:text="${recommendation.systemName}"></p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</div>
+</body>
+</html>

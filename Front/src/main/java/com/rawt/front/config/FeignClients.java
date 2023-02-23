@@ -1,0 +1,16 @@
+package com.rawt.front.config;
+
+import com.rawt.api.ProductsApi;
+import com.rawt.api.RecommendationsApi;
+import org.springframework.cloud.openfeign.FeignClient;
+
+public class FeignClients {
+
+    @FeignClient(url = "${shop.productsUrl}", name = "products")
+    public interface ProductsClient extends ProductsApi {
+    }
+
+    @FeignClient(url = "${shop.recommendationsUrl}", name = "recommendations")
+    public interface RecommendationsClient extends RecommendationsApi {
+    }
+}

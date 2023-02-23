@@ -1,0 +1,5 @@
+server:
+  port: 8080
+shop:
+  productsUrl: ${PRODUCTS_URL:localhost:8081}
+  recommendationsUrl: ${RECOMMENDATIONS_URL:localhost:8082}

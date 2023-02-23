@@ -1,0 +1,42 @@
+openapi: 3.0.0
+info:
+  title: Product API
+  version: 1.0.0
+  description: API for managing products
+paths:
+  /recommendations:
+    get:
+      summary: Get a recommended product
+      description: Returns a single recommended ProductShort object based on the provided sessionId
+      parameters:
+        - name: sessionId
+          in: query
+          required: true
+          description: The session ID of the user to get a recommendation for
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A single recommended product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recommendation'
+components:
+  schemas:
+    Recommendation:
+      type: object
+      properties:
+        productId:
+          type: long
+          description: The ID of the recommended product
+        explanation:
+          type: string
+          description: A string that explains the recommendation
+        systemName:
+          type: string
+          description: The name of the system that made the recommendation
+      required:
+        - productId
+        - explanation
+        - systemName
