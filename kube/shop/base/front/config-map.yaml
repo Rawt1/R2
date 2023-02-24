@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: front-config
+  namespace: shop-ns
+  labels:
+    config: front-config
+data:
+  PRODUCTS_URL: "products-svc.shop:8081"
+  RECOMMENDATIONS_URL: "recommendations-svc.shop:8082"

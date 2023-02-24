@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: front-app
+  name: recommendations-app
   namespace: shop-ns
   labels:
-    app: front-app
+    app: recommendations-app
     version: dev
 spec:
   selector:
     matchLabels:
-      app: front-app
+      app: recommendations-app
   template:
     metadata:
       labels:
-        app: front-app
+        app: recommendations-app
     spec:
       containers:
-      - name: front-app
-        image: gcr.io/gothic-scheme-375315/front:dev
+      - name: recommendations-app
+        image: gcr.io/gothic-scheme-375315/recommendations:dev
         resources:
           limits:
             memory: "128Mi"
             cpu: "300m"
         ports:
-        - containerPort: 8080
+        - containerPort: 8082

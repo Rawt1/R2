@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-repo
+  namespace: shop-ns
+  labels:
+    app: product-repo
+    version: dev
+spec:
+    selector:
+        matchLabels:
+          app: product-repo
+    template:
+        metadata:
+          labels:
+              app: product-repo
+        spec:
+          containers:
+          - name: product-repo
+            image: gcr.io/gothic-scheme-375315/product-repo:dev
+            resources:
+              limits:
+                  memory: "128Mi"
+                  cpu: "300m"
+            ports:
+            - containerPort: 8081

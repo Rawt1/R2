@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-repo-svc
+  namespace: shop-ns
+spec:
+    selector:
+        app: product-repo
+    ports:
+    - port: 8081
+      targetPort: 8081
