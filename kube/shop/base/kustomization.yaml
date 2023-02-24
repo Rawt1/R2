@@ -1,0 +1,4 @@
+resources:
+  - front
+  - recommendations
+  - product-repo
