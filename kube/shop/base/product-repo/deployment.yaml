@@ -19,8 +19,8 @@ spec:
           - name: product-repo
             image: gcr.io/gothic-scheme-375315/product-repo:dev
             resources:
-              limits:
-                  memory: "128Mi"
-                  cpu: "300m"
+              requests:
+                memory: "128Mi"
+                cpu: "50m"
             ports:
             - containerPort: 8081

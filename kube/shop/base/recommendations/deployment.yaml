@@ -17,10 +17,10 @@ spec:
     spec:
       containers:
       - name: recommendations-app
-        image: gcr.io/gothic-scheme-375315/recommendations:dev
+        image: gcr.io/gothic-scheme-375315/recomender:dev
         resources:
-          limits:
+          requests:
             memory: "128Mi"
-            cpu: "300m"
+            cpu: "50m"
         ports:
         - containerPort: 8082
