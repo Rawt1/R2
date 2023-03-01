@@ -15,3 +15,5 @@ spec:
       enabled: false
   meshConfig:
     rootNamespace: istio-system
+    outboundTrafficPolicy:
+      mode: REGISTRY_ONLY
