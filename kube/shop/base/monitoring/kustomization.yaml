@@ -1,0 +1,7 @@
+namespace: monitoring-ns
+
+resources:
+  - grafana.yaml
+  - jaeger.yaml
+  - kiali.yaml
+  - prometheus.yaml

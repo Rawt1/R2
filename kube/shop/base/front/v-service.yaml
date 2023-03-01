@@ -3,10 +3,20 @@ apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: front-vsvc
+  namespace: shop-ns
 spec:
   hosts:
-  - front-vsvc
+  - "*"
+  gateways:
+    - shop-gateway
   http:
-  - route:
-    - destination:
-        host: front-svc
+    - match:
+        - uri:
+            exact: /
+        - uri:
+            prefix: /css
+      route:
+      - destination:
+          host: front-svc
+          port:
+            number: 8080

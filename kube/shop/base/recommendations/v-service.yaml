@@ -2,9 +2,10 @@ apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: recommendations-vsvc
+  namespace: shop-ns
 spec:
     hosts:
-    - recommendations-vsvc
+    - recommendations-svc
     http:
     - route:
         - destination:

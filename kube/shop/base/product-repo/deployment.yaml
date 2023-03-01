@@ -14,13 +14,30 @@ spec:
         metadata:
           labels:
               app: product-repo
+          annotations:
+            sidecar.istio.io/rewriteAppHTTPProbers: "true"
         spec:
           containers:
           - name: product-repo
             image: gcr.io/gothic-scheme-375315/product-repo:dev
+            imagePullPolicy: Always
             resources:
               requests:
                 memory: "128Mi"
                 cpu: "50m"
             ports:
             - containerPort: 8081
+            livenessProbe:
+              httpGet:
+                path: /actuator/health/readiness
+                port: 8081
+              initialDelaySeconds: 20
+              periodSeconds: 10
+              failureThreshold: 2
+            readinessProbe:
+                httpGet:
+                    path: /actuator/health/liveness
+                    port: 8081
+                initialDelaySeconds: 20
+                periodSeconds: 10
+                failureThreshold: 2

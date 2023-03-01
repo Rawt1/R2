@@ -1,4 +1,6 @@
 resources:
+  - ingress.yaml
   - front
   - recommendations
   - product-repo
+  - monitoring

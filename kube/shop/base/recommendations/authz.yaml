@@ -1,0 +1,29 @@
+#apiVersion: security.istio.io/v1beta1
+#kind: AuthorizationPolicy
+#metadata:
+#  name: recommendations-allow-nothing-authz
+#  namespace: shop-ns
+#spec:
+#  selector:
+#    matchLabels:
+#      app: recommendations-app
+#  action: ALLOW
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: recommendations-authz
+  namespace: shop-ns
+spec:
+    selector:
+      matchLabels:
+        app: recommendations-app
+    action: ALLOW
+    rules:
+    - from:
+      - source:
+          principals: ["*"]
+      to:
+      - operation:
+          methods: ["GET"]
+          paths: ["/recommendations"]

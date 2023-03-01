@@ -14,13 +14,30 @@ spec:
     metadata:
       labels:
         app: recommendations-app
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       containers:
       - name: recommendations-app
         image: gcr.io/gothic-scheme-375315/recomender:dev
+        imagePullPolicy: Always
         resources:
           requests:
             memory: "128Mi"
             cpu: "50m"
         ports:
         - containerPort: 8082
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8082
+          initialDelaySeconds: 20
+          periodSeconds: 10
+          failureThreshold: 2
+        readinessProbe:
+            httpGet:
+                path: /actuator/health/liveness
+                port: 8082
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 2

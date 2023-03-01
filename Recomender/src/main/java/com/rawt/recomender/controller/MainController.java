@@ -18,7 +18,7 @@ public class MainController implements RecommendationsApi {
     @Override
     public ResponseEntity<Recommendation> recommendationsGet(String sessionId) {
         Recommendation recommendation = new Recommendation()
-                .productId(random.nextLong(100))
+                .productId((long)random.nextInt(100))
                 .explanation("This is a random recommendation")
                 .systemName(System.getenv("HOSTNAME") + ":" + recommenderVersion);
         return ResponseEntity.ok(recommendation);

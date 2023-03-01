@@ -6,5 +6,5 @@ metadata:
   labels:
     config: front-config
 data:
-  PRODUCTS_URL: "products-svc.shop:8081"
-  RECOMMENDATIONS_URL: "recommendations-svc.shop:8082"
+  PRODUCTS_URL: "product-repo-svc.shop-ns:8081"
+  RECOMMENDATIONS_URL: "recommendations-svc.shop-ns:8082"

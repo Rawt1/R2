@@ -1,0 +1,18 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: front-authz
+  namespace: shop-ns
+spec:
+  selector:
+    matchLabels:
+      app: front-app
+  action: ALLOW
+  rules:
+    - from:
+      - source:
+          principals: ["*"]
+      to:
+      - operation:
+          methods: ["GET"]
+          paths: ["/", "/css/*"]
