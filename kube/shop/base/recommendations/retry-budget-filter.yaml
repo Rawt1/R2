@@ -1,0 +1,110 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: retry-budget-filter
+  namespace: shop-ns
+spec:
+  workloadSelector:
+    labels:
+      app: recommendations-app
+  configPatches:
+    - applyTo: CLUSTER
+      match:
+        context: SIDECAR_OUTBOUND
+        cluster:
+          name: "outbound|80|randomuser|istio-egressgateway.istio-system.svc.cluster.local"
+      patch:
+        operation: REMOVE
+        value:
+          name: "outbound|80|randomuser|istio-egressgateway.istio-system.svc.cluster.local"
+    - applyTo: CLUSTER
+      match:
+        context: SIDECAR_OUTBOUND
+        cluster:
+          name: "outbound|80|randomuser|istio-egressgateway.istio-system.svc.cluster.local"
+      patch:
+        operation: ADD
+        value:
+          name: outbound|80|randomuser|istio-egressgateway.istio-system.svc.cluster.local
+          type: EDS
+          eds_cluster_config:
+            eds_config:
+              ads: { }
+              initial_fetch_timeout: 0s
+              resource_api_version: V3
+            service_name: outbound|80|randomuser|istio-egressgateway.istio-system.svc.cluster.local
+          connect_timeout: 10s
+          lb_policy: LEAST_REQUEST
+          circuit_breakers:
+            thresholds:
+              - max_connections: 4294967295
+                max_pending_requests: 4294967295
+                max_requests: 4294967295
+                max_retries: 4294967295
+                track_remaining: true
+                retry_budget:
+                  budget_percent:
+                    value: 50.0
+          transport_socket:
+            name: envoy.transport_sockets.tls
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
+              common_tls_context:
+                tls_params:
+                  tls_minimum_protocol_version: TLSv1_2
+                  tls_maximum_protocol_version: TLSv1_3
+                alpn_protocols:
+                  - istio-peer-exchange
+                  - istio
+                  - h2
+                tls_certificate_sds_secret_configs:
+                  - name: default
+                    sds_config:
+                      api_config_source:
+                        api_type: GRPC
+                        grpc_services:
+                          - envoy_grpc:
+                              cluster_name: sds-grpc
+                        set_node_on_first_message_only: true
+                        transport_api_version: V3
+                      initial_fetch_timeout: 0s
+                      resource_api_version: V3
+                combined_validation_context:
+                  default_validation_context:
+                    match_subject_alt_names:
+                      - exact: spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
+                  validation_context_sds_secret_config:
+                    name: ROOTCA
+                    sds_config:
+                      api_config_source:
+                        api_type: GRPC
+                        grpc_services:
+                          - envoy_grpc:
+                              cluster_name: sds-grpc
+                        set_node_on_first_message_only: true
+                        transport_api_version: V3
+                      initial_fetch_timeout: 0s
+                      resource_api_version: V3
+              sni: randomuser.me
+          metadata:
+            filter_metadata:
+              istio:
+                config: "/apis/networking.istio.io/v1alpha3/namespaces/shop-ns/destination-rule/httpbin-internal-destinationrule"
+                default_original_port: 80
+                subset: randomuser
+                services:
+                  - namespace: istio-system
+                    host: istio-egressgateway.istio-system.svc.cluster.local
+                    name: istio-egressgateway
+          common_lb_config:
+            locality_weighted_lb_config: { }
+          typed_extension_protocol_options:
+            envoy.extensions.upstreams.http.v3.HttpProtocolOptions:
+              "@type": type.googleapis.com/envoy.extensions.upstreams.http.v3.HttpProtocolOptions
+              explicit_http_config:
+                http2_protocol_options: { }
+          filters:
+            - name: istio.metadata_exchange
+              typed_config:
+                "@type": type.googleapis.com/envoy.tcp.metadataexchange.config.MetadataExchange
+                protocol: istio-peer-exchange

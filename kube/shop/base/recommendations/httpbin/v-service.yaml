@@ -1,0 +1,31 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: httpbin-vsvc
+  namespace: shop-ns
+spec:
+  hosts:
+  - httpbin.org
+  gateways:
+    - shop-ns/egress-gateway
+    - mesh
+  http:
+  - match:
+      - gateways:
+          - mesh
+        port: 80
+    route:
+      - destination:
+          host: istio-egressgateway.istio-system.svc.cluster.local
+          port:
+            number: 80
+          subset: httpbin
+  - match:
+      - gateways:
+          - shop-ns/egress-gateway
+        port: 80
+    route:
+      - destination:
+          host: httpbin.org
+          port:
+            number: 443

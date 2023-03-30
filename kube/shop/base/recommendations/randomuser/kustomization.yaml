@@ -1,0 +1,4 @@
+resources:
+  - serviceentry.yaml
+  - v-service.yaml
+  - destinationrule.yaml

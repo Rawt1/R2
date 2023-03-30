@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: egress-gateway
+  labels:
+    app: egress-gateway
+  namespace: shop-ns
+spec:
+  selector:
+    istio: egressgateway
+  servers:
+    - port:
+        number: 80
+        name: https-port-for-tls-origination
+        protocol: HTTPS
+      hosts:
+        - "randomuser.me"
+        - "httpbin.org"
+      tls:
+        mode: ISTIO_MUTUAL

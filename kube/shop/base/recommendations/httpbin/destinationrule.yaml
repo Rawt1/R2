@@ -1,0 +1,35 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: httpbin-destinationrule
+  namespace: shop-ns
+spec:
+  host: httpbin.org
+  exportTo:
+    - "istio-system"
+  trafficPolicy:
+    portLevelSettings:
+    - port:
+        number: 443
+      tls:
+        mode: SIMPLE
+        sni: httpbin.org
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: httpbin-internal-destinationrule
+  namespace: shop-ns
+spec:
+    host: istio-egressgateway.istio-system.svc.cluster.local
+    exportTo:
+      - "shop-ns"
+    subsets:
+      - name: httpbin
+        trafficPolicy:
+          portLevelSettings:
+          - port:
+              number: 80
+            tls:
+              mode: ISTIO_MUTUAL
+              sni: httpbin.org

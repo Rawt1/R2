@@ -1,0 +1,43 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: randomuser-tls-upgrade-destinationrule
+  namespace: shop-ns
+spec:
+  host: randomuser.me
+  exportTo:
+    - "istio-system"
+  trafficPolicy:
+    portLevelSettings:
+      - port:
+          number: 443
+        tls:
+          mode: SIMPLE
+          sni: randomuser.me
+
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: randomuser-internal-destinationrule
+  namespace: shop-ns
+spec:
+  host: istio-egressgateway.istio-system.svc.cluster.local
+  exportTo:
+    - "shop-ns"
+  subsets:
+    - name: randomuser
+      trafficPolicy:
+        portLevelSettings:
+          - port:
+              number: 80
+            tls:
+              mode: ISTIO_MUTUAL
+              sni: randomuser.me
+#            connectionPool:
+#              http:
+#                http2MaxRequests: 10
+#                maxRequestsPerConnection: 20
+#                maxRetries: 2
+#              tcp:
+#                maxConnections: 1

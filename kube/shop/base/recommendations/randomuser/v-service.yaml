@@ -1,0 +1,61 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: randomuser-virtualservice
+  namespace: shop-ns
+spec:
+  hosts:
+    - randomuser.me
+  gateways:
+    - mesh
+  http:
+    - match:
+        - port: 80
+          gateways:
+            - mesh
+          sourceLabels:
+            app: recommendations-app
+      route:
+        - destination:
+            host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: randomuser
+            port:
+              number: 80
+      retries:
+        attempts: 69
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: randomuser-virtualservice-https
+  namespace: shop-ns
+spec:
+  hosts:
+    - randomuser.me
+  gateways:
+    - shop-ns/egress-gateway
+  http:
+    - match:
+        - sourceLabels:
+            istio: egressgateway
+          port: 80
+      route:
+        - destination:
+            host: randomuser.me
+            port:
+              number: 443
+          headers:
+            request:
+              remove:
+                - X-Envoy-Peer-Metadata
+                - X-Envoy-Peer-Metadata-Id
+                - X-Envoy-Attempt-Count
+                - X-Envoy-Decorator-Operation
+                - X-Forwarded-Client-Cert
+      retries:
+        attempts: 0
+      timeout: 3000ms
+  #      fault:
+  #        delay:
+  #          percent: 100
+  #          fixedDelay: 5s
