@@ -1,5 +1,7 @@
 resources:
   - ingress.yaml
+  - egress.yaml
+  - logging.yaml
   - front
   - recommendations
   - product-repo
