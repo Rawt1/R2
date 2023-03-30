@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recommendations-app-v2
+  namespace: shop-ns
+  labels:
+    app: recommendations-app
+    version: dev2
+spec:
+  selector:
+    matchLabels:
+      app: recommendations-app
+      version: dev2
+  template:
+    metadata:
+      labels:
+        app: recommendations-app
+        version: dev2
+    spec:
+      containers:
+        - name: recommendations-app
+          image: gcr.io/gothic-scheme-375315/recomender:dev2
+          imagePullPolicy: Always
+          envFrom:
+          - configMapRef:
+              name: recommendations-v2-config
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "50m"
+          ports:
+            - containerPort: 8082
+
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8082
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 2
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8082
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 5

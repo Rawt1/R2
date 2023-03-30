@@ -10,3 +10,12 @@ spec:
     - route:
         - destination:
             host: recommendations-svc
+            subset: dev
+          weight: 50
+        - destination:
+            host: recommendations-svc
+            subset: dev2
+          weight: 50
+      retries:
+        attempts: 0
+#      timeout: 1000ms

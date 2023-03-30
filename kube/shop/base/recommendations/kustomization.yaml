@@ -1,5 +1,16 @@
 resources:
   - deployment.yaml
+  - deployment-v2.yaml
   - service.yaml
   - v-service.yaml
   - authz.yaml
+  - destinationrule.yaml
+  - retry-budget-filter.yaml
+  - ./randomuser
+  - ./httpbin
+
+configMapGenerator:
+  - name: recommendations-v2-config
+    namespace: shop-ns
+    literals:
+      - PERSON_API_URL=http://randomuser.me/api/

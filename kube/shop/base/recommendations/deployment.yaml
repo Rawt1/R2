@@ -10,13 +10,14 @@ spec:
   selector:
     matchLabels:
       app: recommendations-app
+      version: dev
   template:
     metadata:
       labels:
         app: recommendations-app
-      annotations:
-        sidecar.istio.io/rewriteAppHTTPProbers: "true"
+        version: dev
     spec:
+      serviceAccountName: recommendations-sa
       containers:
       - name: recommendations-app
         image: gcr.io/gothic-scheme-375315/recomender:dev
@@ -24,7 +25,7 @@ spec:
         resources:
           requests:
             memory: "128Mi"
-            cpu: "50m"
+            cpu: "5m"
         ports:
         - containerPort: 8082
         livenessProbe:
@@ -33,7 +34,7 @@ spec:
             port: 8082
           initialDelaySeconds: 20
           periodSeconds: 10
-          failureThreshold: 2
+          failureThreshold: 5
         readinessProbe:
             httpGet:
                 path: /actuator/health/liveness

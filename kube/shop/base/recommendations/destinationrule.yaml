@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: recommendations-destinationrule
+  namespace: shop-ns
+spec:
+  host: recommendations-svc
+  subsets:
+    - name: dev
+      labels:
+        version: dev
+    - name: dev2
+      labels:
+        version: dev2
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+#        outlierDetection:
+#          consecutive5xxErrors: 5
+#          interval: 5s
+#          baseEjectionTime: 10s
+#          maxEjectionPercent: 100
