@@ -2,5 +2,9 @@
 
 SCRIPTPATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
-istioctl uninstall -f "${SCRIPTPATH}/istio-operator.yaml" --purge &&
-echo "Istio is uninstalled"
+istioctl uninstall -y --purge &&
+echo "Istio is uninstalled" &&
+kubectl delete -f "${SCRIPTPATH}/namespaces" &&
+echo "Namespaces are deleted" &&
+kubectl delete -k "${SCRIPTPATH}" &&
+echo "Flagger is deleted"

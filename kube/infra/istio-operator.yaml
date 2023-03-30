@@ -5,15 +5,43 @@ metadata:
   namespace: istio-system
   name: istio-control-plane
 spec:
-  profile: demo
+  profile: default
   components:
+    pilot:
+      enabled: true
+      k8s:
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
     ingressGateways:
     - name: istio-ingressgateway
       enabled: true
+      k8s:
+        resources:
+          requests:
+            cpu: 10m
+            memory: 64Mi
+        hpaSpec:
+          minReplicas: 1
+          maxReplicas: 1
     egressGateways:
     - name: istio-egressgateway
-      enabled: false
+      enabled: true
+      k8s:
+        resources:
+          requests:
+            cpu: 10m
+            memory: 64Mi
+        hpaSpec:
+          minReplicas: 1
+          maxReplicas: 1
   meshConfig:
     rootNamespace: istio-system
     outboundTrafficPolicy:
       mode: REGISTRY_ONLY
+    defaultConfig:
+      proxyStatsMatcher:
+#        defining the regex for the stats that should be included in the metrics
+        inclusionRegexps:
+          - ".*upstream_rq_retry.*"

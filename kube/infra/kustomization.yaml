@@ -1,0 +1,21 @@
+namespace: istio-system
+bases:
+  - https://github.com/fluxcd/flagger/kustomize/istio
+patches:
+  - target:
+      kind: Deployment
+      name: flagger
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: flagger
+      spec:
+        template:
+          spec:
+            containers:
+              - name: flagger
+                args:
+                  - -mesh-provider=istio
+                  - -metrics-server=http://prometheus.monitoring-ns:9090
+                  - -include-label-prefix=app.kubernetes.io
