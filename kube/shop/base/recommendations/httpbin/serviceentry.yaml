@@ -1,0 +1,33 @@
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: httpbin-serviceentry
+  namespace: shop-ns
+spec:
+  hosts:
+  - httpbin.org
+  exportTo:
+    - "istio-system"
+  ports:
+    - name: http
+      number: 80
+      protocol: HTTP
+  resolution: DNS
+  location: MESH_INTERNAL
+---
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: httpbin-serviceentry-external
+  namespace: shop-ns
+spec:
+  hosts:
+  - httpbin.org
+  exportTo:
+    - "istio-system"
+  ports:
+    - name: https
+      number: 443
+      protocol: HTTPS
+  resolution: DNS
+  location: MESH_EXTERNAL
