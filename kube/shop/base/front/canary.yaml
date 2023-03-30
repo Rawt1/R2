@@ -1,0 +1,38 @@
+apiVersion: flagger.app/v1beta1
+kind: Canary
+metadata:
+  name: front-canary
+  namespace: shop-ns
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: front-app
+  service:
+    port: 8080
+    gateways:
+      - shop-gateway
+    hosts:
+      - "*"
+    match:
+      - uri:
+          exact: /
+      - uri:
+          prefix: /css
+    timeout: 3000ms
+    retries:
+      attempts: 2
+      perTryTimeout: 2s
+      retryOn: "500"
+  analysis:
+    interval: 5s
+    threshold: 5
+    maxWeight: 50
+    stepWeight: 5
+    metrics:
+    - name: request-success-rate
+      threshold: 99
+      interval: 1m
+#    - name: request-duration
+#      threshold: 2000
+#      interval: 10s

@@ -1,6 +1,9 @@
 resources:
   - config-map.yaml
   - deployment.yaml
-  - service.yaml
-  - v-service.yaml
+#  - hpa.yaml
+  - sa.yaml
+#  - service.yaml
+#  - v-service.yaml
   - authz.yaml
+  - canary.yaml

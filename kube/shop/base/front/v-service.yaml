@@ -15,8 +15,11 @@ spec:
             exact: /
         - uri:
             prefix: /css
-      route:
-      - destination:
-          host: front-svc
-          port:
-            number: 8080
+#      route:
+#      - destination:
+#          host: front-svc
+#          port:
+#            number: 8080
+      delegate:
+        name: front-app
+        namespace: shop-ns
