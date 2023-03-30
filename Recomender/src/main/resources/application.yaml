@@ -2,3 +2,4 @@ server:
   port: 8082
 recomender:
   version: v0.0.1
+  personApiUrl: ${PERSON_API_URL:localhost:9090}
