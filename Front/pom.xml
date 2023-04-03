@@ -9,7 +9,7 @@
     </parent>
     <groupId>com.rawt</groupId>
     <artifactId>Front</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <name>Front</name>
     <description>Front</description>
     <properties>
