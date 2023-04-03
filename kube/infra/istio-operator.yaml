@@ -40,8 +40,13 @@ spec:
     rootNamespace: istio-system
     outboundTrafficPolicy:
       mode: REGISTRY_ONLY
+    enableTracing: true
+
     defaultConfig:
       proxyStatsMatcher:
 #        defining the regex for the stats that should be included in the metrics
         inclusionRegexps:
           - ".*upstream_rq_retry.*"
+      tracing:
+        zipkin:
+          address: zipkin.monitoring-ns:9411
