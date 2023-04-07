@@ -7,7 +7,7 @@ spec:
   hosts:
   - httpbin.org
   exportTo:
-    - "istio-system"
+    - "."
   ports:
     - name: http
       number: 80

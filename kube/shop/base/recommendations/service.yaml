@@ -11,6 +11,7 @@ spec:
     ports:
     - port: 8082
       targetPort: 8082
+      appProtocol: http
 ---
 apiVersion: v1
 kind: ServiceAccount

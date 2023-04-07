@@ -22,7 +22,7 @@ spec:
             port:
               number: 80
       retries:
-        attempts: 69
+        attempts: 3
 ---
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
