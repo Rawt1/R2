@@ -10,3 +10,5 @@ kubectl apply -f "${SCRIPTPATH}/peer-authn.yaml" &&
 echo "Namespaces are ready" &&
 kubectl apply -k "${SCRIPTPATH}" &&
 echo "Flagger is ready"
+kubectl create secret tls istio-ingressgateway-certs --key "${SCRIPTPATH}/certs/shop.rawt.com.key" --cert "${SCRIPTPATH}/certs/shop.rawt.com.crt" -n istio-system &&
+echo "Certs are ready"
