@@ -1,0 +1,14 @@
+resources:
+  - ../../base
+  - request-authn.yaml
+  - ingress-request-authn.yaml
+patches:
+  - target:
+      kind: AuthorizationPolicy
+      name: front-authz
+    patch: |-
+      - op: add
+        path: /spec/rules/0/when
+        value:
+          - key: request.auth.claims[iss]
+            values: ["testing@secure.istio.io"]
