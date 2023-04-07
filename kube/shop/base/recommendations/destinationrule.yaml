@@ -11,7 +11,7 @@ spec:
         version: dev
     - name: dev2
       labels:
-        version: dev2
+        version: 0.0.2
       trafficPolicy:
         loadBalancer:
           simple: ROUND_ROBIN

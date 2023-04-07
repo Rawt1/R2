@@ -5,21 +5,19 @@ metadata:
   namespace: shop-ns
   labels:
     app: recommendations-app
-    version: dev2
 spec:
   selector:
     matchLabels:
       app: recommendations-app
-      version: dev2
   template:
     metadata:
       labels:
         app: recommendations-app
-        version: dev2
+        version: 0.0.2
     spec:
       containers:
         - name: recommendations-app
-          image: gcr.io/gothic-scheme-375315/recomender:dev2
+          image: gcr.io/gothic-scheme-375315/recomender:0.0.2
           imagePullPolicy: Always
           envFrom:
           - configMapRef:

@@ -13,12 +13,12 @@ spec:
     metadata:
       labels:
         app: front-app
-        version: dev
+        version: 0.0.3
     spec:
       serviceAccountName: front-sa
       containers:
       - name: front-app
-        image: gcr.io/gothic-scheme-375315/front:dev
+        image: gcr.io/gothic-scheme-375315/front:0.0.3
         imagePullPolicy: Always
         resources:
           requests:
