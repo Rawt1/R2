@@ -1,0 +1,9 @@
+redirectUri: ${REDIRECT_URI:https://google.com}
+issuerUri: ${ISSUER_URI:http://localhost:9000}
+server:
+  port: 9000
+
+logging:
+  level:
+    org.springframework.security: trace
+debug: true
