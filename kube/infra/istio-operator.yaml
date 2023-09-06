@@ -48,5 +48,6 @@ spec:
         inclusionRegexps:
           - ".*upstream_rq_retry.*"
       tracing:
+        sampling: 100.0
         zipkin:
           address: zipkin.monitoring-ns:9411

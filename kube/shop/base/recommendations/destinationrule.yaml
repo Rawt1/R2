@@ -11,10 +11,12 @@ spec:
         version: dev
     - name: dev2
       labels:
-        version: 0.0.2
+        version: 0.0.5
       trafficPolicy:
         loadBalancer:
           simple: ROUND_ROBIN
+
+
 #        outlierDetection:
 #          consecutive5xxErrors: 5
 #          interval: 5s

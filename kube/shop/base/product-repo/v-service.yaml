@@ -10,3 +10,7 @@ spec:
   - route:
       - destination:
           host: product-repo-svc
+#    fault:
+#      delay:
+#        percent: 100
+#        fixedDelay: 5s

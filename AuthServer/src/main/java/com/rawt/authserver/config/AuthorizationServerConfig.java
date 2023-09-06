@@ -5,16 +5,27 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
@@ -35,11 +46,25 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
 
-@Configuration(proxyBeanMethods = false)
+@Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class AuthorizationServerConfig {
+
+    private final UserDetails userDetails;
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider(){
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userDetails);
+        authenticationProvider.setPasswordEncoder(this.passwordEncoder());
+        return authenticationProvider;
+    }
+
     @Bean
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
@@ -69,6 +94,7 @@ public class AuthorizationServerConfig {
             throws Exception {
         http
                 .authorizeHttpRequests((authorize) -> authorize
+                        .requestMatchers("/register").permitAll()
                         .anyRequest().authenticated()
                 )
                 // Form login handles the redirect to the login page from the
@@ -78,26 +104,34 @@ public class AuthorizationServerConfig {
         return http.build();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails userDetails = User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("password")
-                .roles("USER")
-                .build();
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        UserDetails userDetails = User.builder()
+//                .passwordEncoder(this.passwordEncoder()::encode)
+//                .username("rawt")
+//                .password("rawt")
+//                .roles("USER")
+//                .build();
+//
+//        return new InMemoryUserDetailsManager(userDetails);
+//    }
 
-        return new InMemoryUserDetailsManager(userDetails);
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
     }
+
+
 
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
         RegisteredClient oidcClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId("oidc-client")
-                .clientSecret("{noop}secret")
+                .clientSecret(this.passwordEncoder().encode("secret"))
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .redirectUri("http://127.0.0.1:8080/login/oauth2/code/oidc-client")
+                .redirectUri("https://oauth.pstmn.io/v1/callback")
                 .postLogoutRedirectUri("http://127.0.0.1:8080/")
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)

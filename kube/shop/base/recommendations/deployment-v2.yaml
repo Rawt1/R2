@@ -13,11 +13,11 @@ spec:
     metadata:
       labels:
         app: recommendations-app
-        version: 0.0.2
+        version: 0.0.5
     spec:
       containers:
         - name: recommendations-app
-          image: gcr.io/gothic-scheme-375315/recomender:0.0.2
+          image: radkeke/recommender:0.0.5
           imagePullPolicy: Always
           envFrom:
           - configMapRef:

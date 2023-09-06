@@ -24,7 +24,7 @@ spec:
     retries:
       attempts: 2
       perTryTimeout: 2s
-      retryOn: "500"
+      retryOn: "500,retriable-status-codes"
   analysis:
     interval: 5s
     threshold: 5
@@ -34,4 +34,4 @@ spec:
     - name: request-success-rate
       threshold: 99
       interval: 1m
-  skipAnalysis: true
+  skipAnalysis: false

@@ -17,5 +17,5 @@ spec:
             subset: dev2
           weight: 50
       retries:
-        attempts: 0
-#      timeout: 1000ms
+        attempts: 2
+      timeout: 2000ms

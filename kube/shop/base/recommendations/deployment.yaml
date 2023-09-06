@@ -20,7 +20,7 @@ spec:
       serviceAccountName: recommendations-sa
       containers:
       - name: recommendations-app
-        image: gcr.io/gothic-scheme-375315/recomender:dev
+        image: radkeke/recommender:0.0.4
         imagePullPolicy: Always
         resources:
           requests:

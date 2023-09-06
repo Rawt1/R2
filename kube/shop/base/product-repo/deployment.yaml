@@ -20,7 +20,7 @@ spec:
           serviceAccountName: product-repo-sa
           containers:
           - name: product-repo
-            image: gcr.io/gothic-scheme-375315/product-repo:dev
+            image: radkeke/product-repo:0.0.2
             imagePullPolicy: Always
             resources:
               requests:

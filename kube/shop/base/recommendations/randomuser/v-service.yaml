@@ -53,7 +53,7 @@ spec:
                 - X-Envoy-Decorator-Operation
                 - X-Forwarded-Client-Cert
       retries:
-        attempts: 0
+        attempts: 4
       timeout: 3000ms
   #      fault:
   #        delay:
