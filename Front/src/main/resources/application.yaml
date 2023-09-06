@@ -3,3 +3,13 @@ server:
 shop:
   productsUrl: ${PRODUCTS_URL:localhost:8081}
   recommendationsUrl: ${RECOMMENDATIONS_URL:localhost:8082}
+
+spring:
+  security:
+    oauth2:
+      client:
+        provider:
+          authorization-uri: localhost:9000/oauth2/authorize
+          token-uri: localhost:9000/oauth2/token
+          user-info-uri: localhost:9000/oauth2/userinfo4
+          jwk-set-uri: localhost:9000/oauth2/jwks

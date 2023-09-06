@@ -21,6 +21,19 @@ public class MainController implements RecommendationsApi {
 
     private final PersonClient personClient;
 
+    private final String[] comments = {
+            "This product exceeded my expectations. It's simply outstanding!",
+            "I can't recommend this product enough. It's a game-changer!",
+            "If you're looking for a high-quality product, this is it. It's top-notch.",
+            "I'm blown away by the performance of this product. It's fantastic!",
+            "I've tried several similar products, but this one takes the crown. It's phenomenal!",
+            "I'm in love with this product. It's made my life so much easier.",
+            "Trust me, you won't be disappointed. This product is worth every penny.",
+            "I can't imagine my routine without this product. It's a must-have.",
+            "I've recommended this product to all my friends and family. It's that good!",
+            "I'm seriously impressed with this product. It's a winner in every aspect."
+    };
+
     public MainController(PersonClient personClient) {
         this.personClient = personClient;
     }
@@ -33,8 +46,12 @@ public class MainController implements RecommendationsApi {
 
         Recommendation recommendation = new Recommendation()
                 .productId((long)random.nextInt(100))
-                .explanation("This is a recommendation for " + name)
+                .explanation(comments[random.nextInt(comments.length)])
+                .userName(name)
                 .systemName(System.getenv("HOSTNAME") + ":" + recommenderVersion);
         return ResponseEntity.ok(recommendation);
     }
+
+
+
 }
