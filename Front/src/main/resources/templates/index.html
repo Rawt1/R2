@@ -10,6 +10,9 @@
     <a href="#" class="active">Home</a>
     <a href="#">About</a>
     <a href="#">Contact</a>
+    <a th:href="@{/admin}">Admin Panel</a>
+    <a th:href="${#authentication.authenticated ? '/logout' : '/oauth2/authorization/authserver'}"
+       th:text="${#authentication.authenticated ? 'Logout' : 'Login'}"></a>
 </nav>
 
 <div class="main-container">
@@ -25,23 +28,6 @@
                         <h2 th:text="${product.title}">Product Title</h2>
                         <p th:text="${product.shortDescription}">Short description of product</p>
                         <p th:text="${product.price}">Price</p>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
-    <div class="recommendations-container" th:if="${true}">
-        <h2>Recommendations</h2>
-        <ul>
-            <li>
-                <div class="recommendation-item">
-                    <div class="image-container">
-                        <div class="placeholder"></div>
-                    </div>
-                    <div class="text-container">
-                        <h3 th:text="${recommendation.productId}"></h3>
-                        <p th:text="${recommendation.explanation}"></p>
-                        <p th:text="${recommendation.systemName}"></p>
                     </div>
                 </div>
             </li>

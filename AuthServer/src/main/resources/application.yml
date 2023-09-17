@@ -29,9 +29,7 @@ spring:
                 - "refresh_token"
                 - "client_credentials"
               redirect-uris:
-                - "http://127.0.0.1:8080/login/oauth2/code/messaging-client-oidc"
-                - "http://127.0.0.1:8080/authorized"
-                - "https://oauth.pstmn.io/v1/callback"
+                - "http://127.0.0.1:8080/login/oauth2/code/authserver"
               post-logout-redirect-uris:
                 - "http://127.0.0.1:8080/logged-out"
               scopes:

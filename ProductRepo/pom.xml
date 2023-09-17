@@ -9,7 +9,7 @@
     </parent>
     <groupId>com.rawt</groupId>
     <artifactId>ProductRepo</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
     <name>ProductRepo</name>
     <description>ProductRepo</description>
     <properties>

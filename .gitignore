@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+/kube/infra/certs/shop.rawt.com.crt
+/kube/infra/certs/shop.rawt.com.csr
+/kube/infra/certs/shop.rawt.com.key

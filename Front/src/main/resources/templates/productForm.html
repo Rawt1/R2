@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit/Add New Product</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav>
+  <!-- Sample navigation bar, adjust as necessary -->
+  <a href="/">Home</a>
+  <a href="/products" class="active">Products</a>
+  <a href="/admin">Admin</a>
+</nav>
+
+<div class="main-container">
+  <h1 th:text="${product.id} ? 'Edit Product' : 'Add New Product'">Edit/Add New Product</h1>
+  <form th:action="${product.id} ? @{/admin/products/{id}/edit(id=${product.id})} : @{/admin/products/create}" th:object="${product}" method="post">
+
+  <div class="input-group">
+      <label for="title">Title:</label>
+      <input type="text" id="title" th:field="*{title}" placeholder="Product Title" required>
+    </div>
+    <div class="input-group">
+      <label for="shortDescription">Short Description:</label>
+      <textarea id="shortDescription" th:field="*{shortDescription}" rows="3" placeholder="Short description of product" required></textarea>
+    </div>
+    <div class="input-group">
+      <label for="price">Price:</label>
+      <input type="number" id="price" th:field="*{price}" placeholder="Price" step="0.01" required>
+    </div>
+    <!-- Assuming image will be a URL for now -->
+    <div class="input-group">
+      <label for="image">Image URL:</label>
+      <input type="text" id="image" placeholder="http://example.com/image.jpg">
+    </div>
+
+    <button type="submit" class="btn btn-edit">Save Product</button>
+  </form>
+</div>
+</body>
+</html>

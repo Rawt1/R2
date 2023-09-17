@@ -1,15 +1,32 @@
 server:
   port: 8080
+  servlet:
+    session:
+      cookie:
+        name: ShopFront
 shop:
   productsUrl: ${PRODUCTS_URL:localhost:8081}
   recommendationsUrl: ${RECOMMENDATIONS_URL:localhost:8082}
+logging:
+  level:
+    org.springframework.security: trace
 
 spring:
   security:
     oauth2:
       client:
         provider:
-          authorization-uri: localhost:9000/oauth2/authorize
-          token-uri: localhost:9000/oauth2/token
-          user-info-uri: localhost:9000/oauth2/userinfo4
-          jwk-set-uri: localhost:9000/oauth2/jwks
+          authserver:
+            authorization-uri: http://127.0.0.1:9000/oauth2/authorize
+            token-uri: http://127.0.0.1:9000/oauth2/token
+            user-info-uri: http://127.0.0.1:9000/userinfo
+            jwk-set-uri: http://127.0.0.1:9000/oauth2/jwks
+            user-name-attribute: sub
+        registration:
+          authserver:
+            client-name: auth-server
+            client-id: oidc-client
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            redirect-uri: http://127.0.0.1:8080/login/oauth2/code/authserver
+            scope: openid,profile

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>FrontPage</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav>
+    <a href="#" class="active">Home</a>
+    <a href="#">New Product</a>
+</nav>
+
+<div class="main-container">
+    <div class="product-list-container">
+        <h1>Admin space</h1>
+        <table>
+            <thead>
+            <tr>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Short Description</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product : ${products}">
+                <td>
+                    <div class="image-container">
+                        <div class="placeholder"></div>
+                        <!-- If you have an image for the product, you can use an img tag here -->
+                        <!-- <img th:src="${product.image}" alt="Product Image"> -->
+                    </div>
+                </td>
+                <td th:text="${product.title}">Product Title</td>
+                <td th:text="${product.shortDescription}">Short description of product</td>
+                <td th:text="${product.price}">Price</td>
+                <td>
+                    <!-- Add your endpoints for edit and delete in the href attributes below -->
+                    <a href="#" th:href="@{/admin/products/{id}/edit(id=${product.id})}" class="btn btn-edit">Edit</a>
+                    <a href="#" th:href="@{/admin/products/{id}/delete(id=${product.id})}" class="btn btn-delete">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

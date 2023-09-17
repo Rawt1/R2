@@ -17,11 +17,96 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ProductShort'
+    post:
+      summary: Create a new product
+      description: Add a new product to the system
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductShort'
+      responses:
+        '201':
+          description: Product successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductShort'
+        '400':
+          description: Invalid input
+
+  /products/{productId}:
+    get:
+      summary: Get a specific product
+      description: Returns a detailed product object
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: ID of the product to fetch
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Detailed product information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductShort'
+        '400':
+          description: Invalid ID supplied
+
+    put:
+      summary: Update an existing product
+      description: Modify details of a product in the system
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: ID of the product to update
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductShort'
+      responses:
+        '200':
+          description: Product successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductShort'
+        '400':
+          description: Invalid input
+
+    delete:
+      summary: Delete a specific product
+      description: Remove a product from the system
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: ID of the product to delete
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Product successfully deleted
+        '400':
+          description: Invalid ID supplied
+
 components:
   schemas:
     ProductShort:
       type: object
       properties:
+        id:
+          type: string
+          description: The id of the product
         title:
           type: string
           description: The title of the product
