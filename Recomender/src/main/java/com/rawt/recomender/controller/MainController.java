@@ -40,10 +40,11 @@ public class MainController implements RecommendationsApi {
 
     @Override
     public ResponseEntity<Recommendation> recommendationsGet(String sessionId) {
-        String person = personClient.getPerson("name");
-        JSONObject personJson = new JSONObject(person);
-        String name = personJson.getJSONArray("results").getJSONObject(0).getJSONObject("name").getString("first");
+//        String person = personClient.getPerson("name");
+//        JSONObject personJson = new JSONObject(person);
+//        String name = personJson.getJSONArray("results").getJSONObject(0).getJSONObject("name").getString("first");
 
+        String name = "Radosław";
         Recommendation recommendation = new Recommendation()
                 .productId((long)random.nextInt(100))
                 .explanation(comments[random.nextInt(comments.length)])

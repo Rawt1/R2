@@ -7,8 +7,8 @@
 </head>
 <body>
 <nav>
-    <a href="#" class="active">Home</a>
-    <a href="#">New Product</a>
+    <a th:href="@{/}" class="active">Home</a>
+    <a th:href="@{/admin/products/new}">New Product</a>
 </nav>
 
 <div class="main-container">
@@ -28,16 +28,15 @@
             <tr th:each="product : ${products}">
                 <td>
                     <div class="image-container">
-                        <div class="placeholder"></div>
-                        <!-- If you have an image for the product, you can use an img tag here -->
-                        <!-- <img th:src="${product.image}" alt="Product Image"> -->
+                        <img th:if="${product.imageId}" th:src="@{'http://localhost:8081/images/' + ${product.imageId}}" alt="Product Image" class="placeholder-admin"/>
+
+                        <div th:unless="${product.imageId}" class="placeholder-admin"></div>
                     </div>
                 </td>
                 <td th:text="${product.title}">Product Title</td>
                 <td th:text="${product.shortDescription}">Short description of product</td>
                 <td th:text="${product.price}">Price</td>
                 <td>
-                    <!-- Add your endpoints for edit and delete in the href attributes below -->
                     <a href="#" th:href="@{/admin/products/{id}/edit(id=${product.id})}" class="btn btn-edit">Edit</a>
                     <a href="#" th:href="@{/admin/products/{id}/delete(id=${product.id})}" class="btn btn-delete">Delete</a>
                 </td>

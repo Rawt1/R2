@@ -4,11 +4,10 @@ nav {
     height: 50px;
     line-height: 50px;
     display: flex;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
 }
 
 nav a {
-    display: inline-block;
     padding: 0 10px;
     text-decoration: none;
     color: #fff;
@@ -60,7 +59,15 @@ p:last-child {
     margin-bottom: 20px;
 }
 
-.image-container .placeholder {
+.image-container .placeholder-index {
+    background-color: black;
+    width: 150px; /* Adjusted to smaller size */
+    height: 150px;
+    margin-right: 20px;
+    transition: transform 0.3s; /* Smooth transition for the scaling effect */
+}
+
+.image-container .placeholder-admin {
     background-color: black;
     width: 50px; /* Adjusted to smaller size */
     height: 50px;
@@ -68,8 +75,8 @@ p:last-child {
     transition: transform 0.3s; /* Smooth transition for the scaling effect */
 }
 
-.image-container .placeholder:hover {
-    transform: scale(1.5); /* 1.5 times the original size when hovered */
+.image-container .placeholder-index:hover {
+    transform: scale(1.5);
 }
 
 .product-image {
@@ -120,9 +127,16 @@ p:last-child {
     flex: 1 1 auto;
 }
 
-.placeholder {
-    width: 100px;
-    height: 100px;
+
+.placeholder-index {
+    width: 150px;
+    height: 150px;
+    background-color: black;
+}
+
+.placeholder-admin {
+    width: 150px;
+    height: 150px;
     background-color: black;
 }
 
